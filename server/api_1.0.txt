@@ -1,0 +1,124 @@
+June 5 ,written by Mude
+api for v1.0
+
+ip:172.18.158.24
+port:8000
+
+register:
+	@para
+		userName:text
+		password:text
+		phoneNum:Numbers
+		weight:Numbers
+		height:Numbers
+
+	@return:
+		100:"register success"
+		101:"user already exist"
+		102:'user logged in, please logout'
+login:
+	@para
+		userName:text
+		password:password
+	@return
+		150:"login success"
+		151:"user not exist"
+		152:"password not match"
+logout:
+	@para
+	@return
+		180:'logout success'
+		181:'you did not login'
+
+checkLogin:
+	@para
+		userName
+	@return
+		250:"user has already login"
+		251:"user not login"
+
+252:"serverError"
+251:"user not login"
+
+
+getNearShakingRunner:
+	@para
+		userName:text
+		myLocation:(text,text) example:(22.9,11.0)
+	@return
+		200:"near user found"
+			userlist:
+				aUser:
+					userName:text
+					phoneNum:text
+					userLocation:(text,text)
+					distance:text
+		201:"near user not found"
+例子：172.18.158.24:8000/runner/getNearShakingRunner/
+	userName:test
+	myLocation:(22.9,11.0)
+
+pushMyDiet:
+	@para
+		userName:text
+		date:text example:2014-05-30
+		adiet:
+			breakfast:
+				food,number
+				.
+				.
+				.
+			lunch:
+				food,number
+				.
+				.
+				.
+			dinner:
+				food,number
+				.
+				.
+				.
+			others:
+				food,number
+				.
+				.
+				.
+
+	@return:
+		300:"diet added success"
+
+
+
+getMyDiet:
+	@para
+		userName:text
+		date:text example:2014-05-30
+	@return
+		350:"diet found"
+			dietlist:
+				adiet:
+					breakfast:
+						food,number
+						.
+						.
+					lunch:
+						food,number
+						.
+						.
+					dinner:
+						food,number
+						.
+						.
+
+					others:
+						food,number
+						.
+						.
+		351:"diet not found"
+
+		
+
+
+
+
+

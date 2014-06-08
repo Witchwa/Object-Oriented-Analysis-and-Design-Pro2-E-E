@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title%} {{ title }}{% endblock%}
+
+{% block content%}
+	<form action = '/login' method = 'POST' align = 'center'>
+		<p>userName:<input type = 'text' name = 'userName' value = 'test123'/></p>
+		<p>password:<input type = 'password' name = 'password' value = 'test'/></p>
+		<p><input type = 'submit'  value = 'log in'/></p>
+	</form>
+{% endblock%}

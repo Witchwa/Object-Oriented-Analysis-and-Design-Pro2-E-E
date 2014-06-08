@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title%} {{ title }}{% endblock%}
+
+{% block content%}
+<form action = '/registe' method = 'POST' align = 'center'>
+		<p>userName: <input type = 'text' name = 'userName' value = 'test'/></p>
+		<p>password: <input type = 'password' name = 'password' value = 'test123'/></p>
+		<p>phoneNum: <input type = 'text' name = 'phoneNum' value = '13560323563'/></p>
+		<p>height: <input type = 'text' name = 'height' value = '175.0'/> cm</p>
+		<p>weight: <input type = 'text' name = 'weight' value = '55'/> kg</p>
+		<p><input type = 'submit'  value = 'registe'/></p>
+</form>
+{% endblock%}

@@ -1,0 +1,174 @@
+June 5 ,written by Mude
+api for v1.0
+
+June 6 , writteb by Mude
+api for v1.1
+ip:172.18.158.24
+port:8000
+
+registe:
+	@para
+		userName:text
+		password:text
+		phoneNum:Numbers
+		weight:Numbers
+		height:Numbers
+
+	@return:
+		100:"register success"
+		101:"user already exist"
+		102:'user logged in, please logout'
+example:
+	ip:port/registe 
+		post parameter:
+			userName:'test'
+			password:'test123'
+			phoneNum:'13560323563'
+			weight:'56'
+			height:'170'
+	if success will get:
+		{
+			'code':100,
+			'phase':'registe success
+		}
+	
+login:
+	@para
+		userName:text
+		password:password
+	@return
+		150:"login success"
+		151:"user not exist"
+		152:"password not match"
+example:
+	ip:port/login
+		post parameter:
+			userName:'test'
+			password:'test123'
+	if success will get:
+		{
+			'code':150,
+			'phase':'login success'
+		}
+logout:
+	@para
+	@return
+		180:'logout success'
+		181:'you did not login'
+example:
+	ip:port/logout
+		post parameter None
+	if success will get:
+		{
+			'code':180
+			'phase':logout success
+		}
+checkLogin:
+	@para
+		userName
+	@return
+		250:"user has already login"
+		251:"user not login"
+
+252:"serverError"
+251:"user not login"
+
+
+getNearShakingRunner:
+	@para
+		userName:text
+		myLocation:(text,text) example:(22.9,11.0)
+	@return
+		200:"near user found"
+			userlist:
+				aUser:
+					userName:text
+					phoneNum:text
+					userLocation:(text,text)
+					distance:text
+		201:"near user not found"
+例子：172.18.158.24:8000/runner/getNearShakingRunner/
+	post parameter:
+		userName:test
+		myLocation:(22.9,11.0)
+	if success will get:
+		{
+			'code':200,
+			'phase':'near user found',
+			'userlist':
+				[{
+					'userName':'testT',
+					'userLocation":(22.0,22.0),
+					'distance':100
+				},
+				{
+					'userName':'我是花无缺"
+					'userLocation':(22.0,22.8),
+					'distance':200
+				}
+				]
+		}
+pushMyDiet:
+	@para
+		userName:text
+		date:text example:2014-05-30
+		adiet:
+			breakfast:
+				food,number
+				.
+				.
+				.
+			lunch:
+				food,number
+				.
+				.
+				.
+			dinner:
+				food,number
+				.
+				.
+				.
+			others:
+				food,number
+				.
+				.
+				.
+
+	@return:
+		300:"diet added success"
+
+
+
+getMyDiet:
+	@para
+		userName:text
+		date:text example:2014-05-30
+	@return
+		350:"diet found"
+			dietlist:
+				adiet:
+					breakfast:
+						food,number
+						.
+						.
+					lunch:
+						food,number
+						.
+						.
+					dinner:
+						food,number
+						.
+						.
+
+					others:
+						food,number
+						.
+						.
+		351:"diet not found"
+
+		
+
+
+
+
+

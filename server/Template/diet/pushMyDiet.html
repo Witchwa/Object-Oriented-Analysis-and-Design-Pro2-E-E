@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title%} {{ title }}{% endblock%}
+
+{% block content%}
+
+
+<script>
+function json2str(o) { 
+var arr = []; 
+	var fmt = function(s) { 
+		if (typeof s == 'object' && s != null) return json2str(s); 
+		return /^(string|number)$/.test(typeof s) ? "'" + s + "'" : s; 
+	} 
+for (var i in o) 
+	arr.push("'" + i + "':" + fmt(o[i])); 
+return '{' + arr.join(',') + '}'; 
+} 
+var jsPost = function(action, values) {
+    var id = Math.random();
+    document.write('<form id="post' + id + '" name="post'+ id +'" action="' + action + '" method="post">');
+    document.write('<input type="hidden" name="ff" value="' + values + '" />');
+    document.write('</form>');    
+    document.getElementById('post' + id).submit();
+}
+
+
+
+function myFunction()
+{
+	var jsonData = {
+		'userName':'test',
+		'date': '2014-05-14',
+		'adiet':
+			{'breakfast':[('egg',1),('rice',2)],
+			'lunch':[('rice',2),('fish',2)],
+			'dinner':[('water',2),('rice',3)]}
+
+	};
+	var obj = json2str(jsonData);
+	jsPost('/diet/push', obj);	
+}
+</script>
+
+<button type="button" onclick="myFunction()" align = center>点击这里上传</button>
+
+
+{% endblock%}

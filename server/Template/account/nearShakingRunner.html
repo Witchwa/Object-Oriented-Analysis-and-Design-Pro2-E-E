@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title%} {{ title }}{% endblock%}
+
+{% block content%}
+<form action = '/nearShakingRunner' method = 'POST' align = 'center'>
+	<p>Your current Location: <input type = 'text'  value = '(23.5,45.0)'></p>
+
+	<p><input type = 'submit'  value = 'click to logout'></p>
+</form>
+
+{% endblock%}
