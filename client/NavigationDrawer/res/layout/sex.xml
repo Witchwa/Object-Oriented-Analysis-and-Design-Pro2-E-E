@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/choose_sex"
+        android:layout_width="235dp"
+        android:layout_height="wrap_content"
+        android:height="80px"
+        android:layout_gravity="center"
+        android:text="\n根据个人资料计算基本消耗卡路里"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/female"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:height="80px"
+        android:onClick="femaleOnClick"
+        android:src="@drawable/female" />
+    
+    <TextView
+        android:id="@+id/sex_f"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:height="70px"
+        android:text="\n女"
+        android:textSize="15sp" />
+
+     <ImageView
+         android:id="@+id/male"
+         android:layout_width="wrap_content"
+         android:layout_height="150dp"
+         android:layout_gravity="center"
+         android:onClick="maleOnClick"
+         android:src="@drawable/male" />
+    
+    <TextView
+        android:id="@+id/sex_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+         android:height="70px"
+        android:text="\n男"
+        android:textSize="15sp" />
+
+
+</LinearLayout>
+</ScrollView>

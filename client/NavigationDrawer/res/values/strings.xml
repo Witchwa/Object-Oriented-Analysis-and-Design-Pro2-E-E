@@ -1,0 +1,39 @@
+<!--
+  Copyright 2013 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+    <string name="app_name">健多食广</string>
+    <string-array name="planets_array">
+        <item>运动记录</item>
+        <item>邀约跑友</item>
+        <item>摇一摇</item>
+        <item>我的饮食</item>
+        <item>饮食推荐</item>
+        
+       
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="unknown"></string>
+    <string name="track_time">运动时长（单位：分钟）</string>
+    <string name="distance_label">运动里程数（单位：米）</string>
+    <string name="speed_label">平均速度（单位：米/分钟）</string>
+    <string name="startTime">0:0</string>
+    <string name="calories_label">消耗卡路里（单位：千卡）</string>
+    <string name="zero">0</string>
+</resources>
