@@ -34,56 +34,56 @@ public class ExpandableListViewActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setmeal);
     
-        /**BaseExpandableListAdapter瀹炵幇浜咵xpandableListAdapter*/
+        /**BaseExpandableListAdapter实现了ExpandableListAdapter*/
         final ExpandableListAdapter adapter = new BaseExpandableListAdapter(){
-            private String[] types = new String[]{"鏃╅","鍗堥","鏅氶"};      
+            private String[] types = new String[]{"早餐","午餐","晚餐"};      
             private List<List<Recipe>> recipeLists = RecipeMenu.getRecipe(ExpandableListViewActivity.this);   
-/*===========缁勫厓绱犺〃绀哄彲鎶樺彔鐨勫垪琛ㄩ」锛屽瓙鍏冪礌琛ㄧず鍒楄〃椤瑰睍寮�悗鐪嬪埌鐨勫涓瓙鍏冪礌椤�============*/
+/*===========组元素表示可折叠的列表项，子元素表示列表项展开后看到的多个子元素项=============*/
 
-/**----------寰楀埌types鍜宎rms涓瘡涓�釜鍏冪礌鐨処D-------------------------------------------*/
+/**----------得到types和arms中每一个元素的ID-------------------------------------------*/
            
-            //鑾峰彇缁勫湪缁欏畾鐨勪綅缃紪鍙凤紝鍗硉ypes涓厓绱犵殑ID
+            //获取组在给定的位置编号，即types中元素的ID
             @Override
             public long getGroupId(int groupPosition) {
                 return groupPosition;
             }
         
-            //鑾峰彇鍦ㄧ粰瀹氱殑缁勭殑鍎跨鐨処D锛屽氨鏄痑rms涓厓绱犵殑ID
+            //获取在给定的组的儿童的ID，就是arms中元素的ID
             @Override
             public long getChildId(int groupPosition, int childPosition) {
                 return childPosition;
             }
             
-/**----------鏍规嵁涓婇潰寰楀埌鐨処D鐨勫�锛屾潵寰楀埌types鍜宎rms涓厓绱犵殑涓暟 ------------------------*/
+/**----------根据上面得到的ID的值，来得到types和arms中元素的个数 ------------------------*/
             
-            //鑾峰彇鐨勭兢浣撴暟閲忥紝寰楀埌types閲屽厓绱犵殑涓暟
+            //获取的群体数量，得到types里元素的个数
             @Override
             public int getGroupCount() {
                 return types.length;
             }
             
-            //鍙栧緱鎸囧畾缁勪腑鐨勫効绔ヤ汉鏁帮紝灏辨槸types涓瘡涓�釜绉嶆棌瀹冨啗绉嶇殑涓暟
+            //取得指定组中的儿童人数，就是types中每一个种族它军种的个数
             @Override
             public int getChildrenCount(int groupPosition) {
                 return recipeLists.get(groupPosition).size();
             }
             
-/**----------鍒╃敤涓婇潰getGroupId寰楀埌ID锛屼粠鑰屾牴鎹甀D寰楀埌types涓殑鏁版嵁锛屽苟濉埌TextView涓�-----*/
+/**----------利用上面getGroupId得到ID，从而根据ID得到types中的数据，并填到TextView中 -----*/
             
-            //鑾峰彇涓庣粰瀹氱殑缁勭浉鍏崇殑鏁版嵁锛屽緱鍒版暟缁則ypes涓厓绱犵殑鏁版嵁
+            //获取与给定的组相关的数据，得到数组types中元素的数据
             @Override
             public Object getGroup(int groupPosition) {
                 return types[groupPosition];
             }
 
-            //鑾峰彇涓�釜瑙嗗浘鏄剧ず缁欏畾缁勶紝瀛樻斁types
+            //获取一个视图显示给定组，存放types
             @Override
             public View getGroupView(int groupPosition, boolean isExpanded,
                     View convertView, ViewGroup parent) {
             	LayoutInflater inflater = (LayoutInflater) ExpandableListViewActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.group,null);
-                TextView textView = (TextView) convertView.findViewById(R.id.tv_group);//璋冪敤瀹氫箟鐨刧etTextView()鏂规硶
-                textView.setText(types[groupPosition]);//娣诲姞鏁版嵁
+                TextView textView = (TextView) convertView.findViewById(R.id.tv_group);//调用定义的getTextView()方法
+                textView.setText(types[groupPosition]);//添加数据
                 return textView;
             }
 
@@ -100,7 +100,7 @@ public class ExpandableListViewActivity extends Activity{
             
             
             
-            //鑾峰彇涓�釜瑙嗗浘鏄剧ず鍦ㄧ粰瀹氱殑缁�鐨勫効绔ョ殑鏁版嵁锛屽氨鏄瓨鏀綼rms
+            //获取一个视图显示在给定的组 的儿童的数据，就是存放arms
             @Override
             public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                     View convertView, ViewGroup parent) {
@@ -141,16 +141,16 @@ public class ExpandableListViewActivity extends Activity{
             }
            
             
-/**-------------------鍏朵粬璁剧疆-------------------------------------------------------------------*/
+/**-------------------其他设置-------------------------------------------------------------------*/
             
-            //瀛╁瓙鍦ㄦ寚瀹氱殑浣嶇疆鏄彲閫夌殑锛屽嵆锛歛rms涓殑鍏冪礌鏄彲鐐瑰嚮鐨�
+            //孩子在指定的位置是可选的，即：arms中的元素是可点击的
             @Override
             public boolean isChildSelectable(int groupPosition,
                     int childPosition) {
                 return true;
             }
 
-            //琛ㄧず瀛╁瓙鏄惁鍜岀粍ID鏄法鍩虹鏁版嵁鐨勬洿鏀圭ǔ瀹�
+            //表示孩子是否和组ID是跨基础数据的更改稳定
             public boolean hasStableIds() {
                 return true;
             }
@@ -158,12 +158,12 @@ public class ExpandableListViewActivity extends Activity{
             
         };
         
-         /**浣跨敤閫傞厤鍣**/
+            /**使用适配器*/
          final ExpandableListView expandableListView = (ExpandableListView) this.findViewById(R.id.list);
          expandableListView.setAdapter(adapter);
             
 
-    		//鍙睍寮�竴涓猤roup鐨勫疄鐜版柟娉�
+    		//只展开一个group的实现方法
          expandableListView.setOnGroupExpandListener(new OnGroupExpandListener() {  
         	  
              @Override  
@@ -183,10 +183,10 @@ public class ExpandableListViewActivity extends Activity{
     public void onClick(View view) {
     	AlertDialog.Builder builder= new AlertDialog.Builder(this);
         builder.setIcon(android.R.drawable.ic_dialog_info);
-        builder.setTitle("鍋ュ椋熷箍");
-        String msg = "椋熺墿鎬诲叡鍗¤矾閲屼负锛� + ans";
+        builder.setTitle("健多食广");
+        String msg = "食物总共卡路里为：" + ans;
         builder.setMessage(msg);
-        builder.setPositiveButton("纭", null);
+        builder.setPositiveButton("确认", null);
         builder.create().show();
     }
   

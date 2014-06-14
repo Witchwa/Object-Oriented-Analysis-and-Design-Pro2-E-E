@@ -31,15 +31,14 @@
         android:text="@string/track_time"
         android:textColor="#FFF"
         android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/track_time"
+    
+    <Chronometer
+        android:id="@+id/chro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF"
-        android:text="@string/startTime"
-        android:textColor="#000"
-        android:textSize="40sp" />
+         android:textSize="40sp"
+        android:textColor="#000" />
+
 
     <TextView
         android:id="@+id/distance_label"

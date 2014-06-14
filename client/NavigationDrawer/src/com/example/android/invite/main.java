@@ -1,10 +1,11 @@
 package com.example.android.invite;
 
-import com.example.android.navigationdrawerexample.MainActivity;
 import com.example.android.navigationdrawerexample.R;
-import com.example.android.navigationdrawerexample.RegistLoginActivity;
 
 import android.app.Activity;
+import android.app.ExpandableListActivity;
+import android.app.Service;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -15,74 +16,88 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+/*
+public class main extends Activity implements SensorEventListener  
+{  
+    SensorManager sensorManager = null;  
+    Vibrator vibrator = null;  
+  
+    @Override  
+    public void onCreate(Bundle savedInstanceState)  
+    {  
+        super.onCreate(savedInstanceState);  
+        setContentView(R.layout.invite_main);  
 
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);  
+        vibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);  
+  
+    }  
+  
+    @Override  
+    protected void onPause()  
+    {  
+        super.onPause();  
+        sensorManager.unregisterListener(this);  
+    }  
+  
+    @Override  
+    protected void onResume()  
+    {  
+        super.onResume();  
+        sensorManager.registerListener(this,  
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),  
+                SensorManager.SENSOR_DELAY_NORMAL);  
+    }  
+  
+    @Override  
+    public void onAccuracyChanged(Sensor sensor, int accuracy)  
+    {  
+        //å½“ä¼ æ„Ÿå™¨ç²¾åº¦æ”¹å˜æ—¶å›žè°ƒè¯¥æ–¹æ³•ï¼ŒDo nothing.  
+    }  
+  
+    @Override  
+    public void onSensorChanged(SensorEvent event)  
+    {  
+  
+        int sensorType = event.sensor.getType();  
+        //values[0]:Xè½´ï¼Œvalues[1]ï¼šYè½´ï¼Œvalues[2]ï¼šZè½´  
+        float[] values = event.values;  
+        if (sensorType == Sensor.TYPE_ACCELEROMETER)  
+        {  
+            if ((Math.abs(values[0]) > 17 || Math.abs(values[1]) > 17 || Math  
+                    .abs(values[2]) > 17))  
+            {  
+                Log.d("sensor x ", "============ values[0] = " + values[0]);  
+                Log.d("sensor y ", "============ values[1] = " + values[1]);  
+                Log.d("sensor z ", "============ values[2] = " + values[2]);  
+                
+				Intent intent = new Intent();
+				intent.setClass(main.this, getList.class);
+				startActivity(intent);
+				main.this.finish();
+                
+                vibrator.vibrate(500);  
+            }  
+  
+        }  
+    }  
+  
+}  */
 
-public class main extends Activity {
-	private SensorManager sensorManager;
-	private Vibrator vibrator;
-	private static final String TAG = "TestSensorActivity";
-	private static final int SENSOR_SHAKE = 10;
-	/** Called when the activity is first created. */
-	@Override
+public class main extends Activity
+{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.shake);
-		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        setContentView(R.layout.invite_main);  
+        
+        LinearLayout ll = (LinearLayout)findViewById(R.id.ll);
+        TextView tv = (TextView)findViewById(R.id.tv_group);
+        
 	}
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (sensorManager != null) {// ×¢²á¼àÌýÆ÷
-			sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-			// µÚÒ»¸ö²ÎÊýÊÇListener£¬µÚ¶þ¸ö²ÎÊýÊÇËùµÃ´«¸ÐÆ÷ÀàÐÍ£¬µÚÈý¸ö²ÎÊýÖµ»ñÈ¡´«¸ÐÆ÷ÐÅÏ¢µÄÆµÂÊ
-		}
-	}
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (sensorManager != null) {// È¡Ïû¼àÌýÆ÷
-			sensorManager.unregisterListener(sensorEventListener);
-		}
-	}
-	/**
-	* ÖØÁ¦¸ÐÓ¦¼àÌý
-	*/
-	private SensorEventListener sensorEventListener = new SensorEventListener() {
-		@Override
-		public void onSensorChanged(SensorEvent event) {
-			// ´«¸ÐÆ÷ÐÅÏ¢¸Ä±äÊ±Ö´ÐÐ¸Ã·½·¨
-			float[] values = event.values;
-			float x = values[0]; // xÖá·½ÏòµÄÖØÁ¦¼ÓËÙ¶È£¬ÏòÓÒÎªÕý
-			float y = values[1]; // yÖá·½ÏòµÄÖØÁ¦¼ÓËÙ¶È£¬ÏòÇ°ÎªÕý
-			float z = values[2]; // zÖá·½ÏòµÄÖØÁ¦¼ÓËÙ¶È£¬ÏòÉÏÎªÕý
-			Log.i(TAG, "xÖá·½ÏòµÄÖØÁ¦¼ÓËÙ¶È" + x + "£»yÖá·½ÏòµÄÖØÁ¦¼ÓËÙ¶È" + y + "£»zÖá·½ÏòµÄÖØÁ¦¼ÓËÙ¶È" + z);
-			// Ò»°ãÔÚÕâÈý¸ö·½ÏòµÄÖØÁ¦¼ÓËÙ¶È´ïµ½40¾Í´ïµ½ÁËÒ¡»ÎÊÖ»úµÄ×´Ì¬¡£
-			int medumValue = 19;// ÈýÐÇ i9250ÔõÃ´»Î¶¼²»»á³¬¹ý20£¬Ã»°ì·¨£¬Ö»ÉèÖÃ19ÁË
-			if (Math.abs(x) > medumValue || Math.abs(y) > medumValue || Math.abs(z) > medumValue) {
-				vibrator.vibrate(200);
-				Message msg = new Message();
-				msg.what = SENSOR_SHAKE;
-				handler.sendMessage(msg);
-			}
-		}
-		@Override
-		public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		}
-	};
-	/**
-	* ¶¯×÷Ö´ÐÐ
-	*/
-	Handler handler = new Handler() {
-	@Override
-	public void handleMessage(Message msg) {
-		super.handleMessage(msg);
-		
-		Intent intent = new Intent();
-		intent.setClass(main.this, invite.class);
-		startActivity(intent);
-		
-		}
-	};
+	
 }

@@ -23,66 +23,51 @@ import java.util.Locale;
 
 import org.w3c.dom.ls.LSException;
 
+import com.example.android.invite.getList;
+import com.example.android.invite.main;
 import com.example.android.meal.*;
-import com.example.android.meal.ExpandableListViewActivity;
-import com.example.android.meal.Recipe;
-import com.example.android.meal.RecipeMenu;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.app.ActionBar.Tab;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.StaticLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * This example illustrates a common usage of the DrawerLayout widget
- * in the Android support library.
- * <p/>
- * <p>When a navigation (left) drawer is present, the host activity should detect presses of
- * the action bar's Up affordance as a signal to open and close the navigation drawer. The
- * ActionBarDrawerToggle facilitates this behavior.
- * Items within the drawer should fall into one of two categories:</p>
- * <p/>
- * <ul>
- * <li><strong>View switches</strong>. A view switch follows the same basic policies as
- * list or tab navigation in that a view switch does not create navigation history.
- * This pattern should only be used at the root activity of a task, leaving some form
- * of Up navigation active for activities further down the navigation hierarchy.</li>
- * <li><strong>Selective Up</strong>. The drawer allows the user to choose an alternate
- * parent for Up navigation. This allows a user to jump across an app's navigation
- * hierarchy at will. The application should treat this as it treats Up navigation from
- * a different task, replacing the current task stack using TaskStackBuilder or similar.
- * This is the only form of navigation drawer that should be used outside of the root
- * activity of a task.</li>
- * </ul>
- * <p/>
- * <p>Right side drawers should be used for actions, not navigation. This follows the pattern
- * established by the Action Bar that navigation should be to the left and actions to the right.
- * An action should be an operation performed on the current contents of the window,
- * for example enabling or disabling a data overlay on top of the current content.</p>
- */
 public class MainActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -91,7 +76,11 @@ public class MainActivity extends Activity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mPlanetTitles;
-
+    LocationManager locationm;
+    String provider;
+    Location location0;
+    LocationListener GPS_listener;
+    Criteria criteria;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -249,42 +238,86 @@ public class MainActivity extends Activity {
         	View rootView = null;
 			List<Recipe> recipeList = null;
         	if (i == 0) {
-        		rootView = inflater.inflate(R.layout.fragment_sportrecording, container, false);
-        		
-        		/*ListView ls = (ListView)rootView.findViewById(R.id.listview_sportrecording);
-        		ArrayList<HashMap<String, Object>> listitem = new ArrayList<HashMap<String,Object>>();
-        		String[] textStrings = {"查看时长","查看路径","查看里程数","查看消耗卡路里"};
-        		Object[] objects = {R.drawable.earth, R.drawable.mars,R.drawable.jupiter,R.drawable.venus};
-        		for (int j = 0; j < 4; j++) {
-        			HashMap<String, Object> map = new HashMap<String, Object>();
-        			map.put("text", textStrings[j]);
-        			map.put("image", objects[j]);
-        			listitem.add(map);
-				}
-        		SimpleAdapter mSimpleAdapter = new SimpleAdapter(getActivity(), listitem , R.layout.item_fragment_sportrecording, new String[]{"text", "image"}, new int[]{R.id.textView1, R.id.imageView1});
-        		ls.setAdapter(mSimpleAdapter);
-        		ls.setOnItemClickListener(new OnItemClickListener() {
-
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						// TODO Auto-generated method stub
-						
-					}
-				});*/
+        		rootView = inflater.inflate(R.layout.fragment_sportrecording, container, false);        		        		
                 Toast.makeText(getActivity(), "运动记录", Toast.LENGTH_SHORT).show();
+                
+                //记录运动时间：
+                final Chronometer ch=(Chronometer) rootView.findViewById(R.id.chro);
+                final Button start = (Button) rootView.findViewById(R.id.startRecord);
+                final TextView distanceTextView = (TextView)rootView.findViewById(R.id.distance);
+                final TextView speedTextView = (TextView)rootView.findViewById(R.id.speed);
+                final TextView caloTextView = (TextView)rootView.findViewById(R.id.calories);
+                Button stop = (Button) rootView.findViewById(R.id.endRecord);
+				start.setText("开始记录");
+        		start.setOnClickListener(new OnClickListener() {      			
+        	           @Override
+        			   public void onClick(View v){  
+        	        	   if(start.getText() == "开始记录"){
+        	        		   ch.setBase(SystemClock.elapsedRealtime());
+        	        		   distanceTextView.setText("0");
+        	        		   speedTextView.setText("0");
+        	        		   caloTextView.setText("0");
+        	        		   ch.start();
+        	        		   start.setText("正在记录");
+        	        	   }	
+        	        	   MainActivity mainActivity = (MainActivity) getActivity();
+        	        	   mainActivity.init_location_listener(distanceTextView);
+        	        	   Log.e("GPS", "jilujuli");
+        	           }
+        		});
+        		stop.setOnClickListener(new OnClickListener() {        			
+     	           @Override
+     			   public void onClick(View v){    	        	   
+     	        	 ch.stop();
+     	        	 start.setText("开始记录");
+     	        	 final long time = (long) (Double.parseDouble(ch.getText().toString().split(":")[1]))
+     	        	  + (long) (Double.parseDouble(ch.getText().toString().split(":")[0])) * 60;
+     	        	 long distance = (long) Double.parseDouble(distanceTextView.getText().toString());
+     	        	
+     	        	 speedTextView.setText(distance / time + "");
+     	        	long k = 30 ;
+     	        	if (distance / time != 0) {
+						k = 30 / (distance / time * 60);
+					}
+     	        	final long k1 = k;
+     	        	 //dialog
+     	        	final EditText et = new EditText(getActivity());
+     	   		new AlertDialog.Builder(getActivity()).setTitle("请输入体重(单位:kg)")
+     	   				.setView(et).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+     	   					@Override
+     	   					public void onClick(DialogInterface arg0, int arg1) {
+     	   						long weight = (long) Double.parseDouble(et.getText().toString());
+     	   						long result = weight * time / 3600 * k1;
+     	   						caloTextView.setText(result + "");
+     	   					}
+     	   				}).setNegativeButton("取消", null).show();
+
+     	        	 
+     	           }
+     		});
+			
 			}else if(i == 1){
-				//腾讯地图API获取位置，查看附近跑友
-				rootView = inflater.inflate(R.layout.fragment_planet, container, false);
-        
                 Toast.makeText(getActivity(), "跑步邀约", Toast.LENGTH_SHORT).show();
+                rootView = inflater.inflate(R.layout.invite_main, container, false);
+                Button cs = (Button)rootView.findViewById(R.id.cs);
+                
+                cs.setOnClickListener(new View.OnClickListener(){
+
+        			@Override
+        			public void onClick(View arg0) {
+        				// TODO Auto-generated method stub
+
+        				Intent intent = new Intent();
+        				Log.e("jump", "succeed");
+        				intent.setClass(getActivity(), getList.class);
+        				startActivity(intent);
+        			}
+                	
+                });
 			}else if(i == 2){
-				rootView = inflater.inflate(R.layout.fragment_planet, container, false);
-			}else if(i== 3){
 				//记录我的饮食
 				rootView = inflater.inflate(R.layout.sex, container, false);
 				Toast.makeText(getActivity(), "我的饮食", Toast.LENGTH_SHORT).show();
-
 			}else {
 				rootView = inflater.inflate(R.layout.fragment_planet, container, false);
 				Toast.makeText(getActivity(), "饮食推荐", Toast.LENGTH_SHORT).show();
@@ -314,8 +347,8 @@ public class MainActivity extends Activity {
             return rootView;
         }
     }
-    
-    public void femaleOnClick(View view) {
+	
+	 public void femaleOnClick(View view) {
     	LayoutInflater flater = LayoutInflater.from(this);
     	View v = flater.inflate(R.layout.weigh, null);
     	setContentView(v); 	
@@ -345,4 +378,65 @@ public class MainActivity extends Activity {
         startActivity(intent);
     	
     }
+    private final static double EARTH_RADIUS = 6378137.0; 
+    private static double gps2m(double lat_a, double lng_a, double lat_b, double lng_b) {
+        double radLat1 = (lat_a * Math.PI / 180.0);
+        double radLat2 = (lat_b * Math.PI / 180.0);
+        double a = radLat1 - radLat2;
+        double b = (lng_a - lng_b) * Math.PI / 180.0;
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
+               + Math.cos(radLat1) * Math.cos(radLat2)
+               * Math.pow(Math.sin(b / 2), 2)));
+        s = s * EARTH_RADIUS;
+        s = Math.round(s * 10000) / 10000;
+        return s;
+     }
+    //GPS function listener
+    public void init_location_listener(final TextView tv) {
+    	 locationm = (LocationManager) getSystemService(LOCATION_SERVICE);
+         criteria = new Criteria();
+         criteria.setAccuracy(Criteria.ACCURACY_FINE);
+         criteria.setAltitudeRequired(false);
+         criteria.setBearingRequired(false);
+         criteria.setCostAllowed(true);
+         criteria.setPowerRequirement(Criteria.POWER_LOW);
+         provider = locationm.getBestProvider(criteria, true);
+   
+         location0 = locationm.getLastKnownLocation(provider);
+             //获得上次的记录
+         Log.e("current location0", location0.getLatitude()+ " + " + location0.getLongitude());
+         GPS_listener = new LocationListener() {
+         //监听位置变化，实时获取位置信息
+             @Override
+             public void onStatusChanged(String provider, int status,
+                    Bundle extras) {
+                // TODO Auto-generated method stub
+   
+             }
+   
+             @Override
+             public void onProviderEnabled(String provider) {
+                // TODO Auto-generated method stub
+   
+             }
+   
+             @Override
+             public void onProviderDisabled(String provider) {
+                // TODO Auto-generated method stub
+   
+             }
+   
+             @Override
+             public void onLocationChanged(Location location) {
+                // TODO Auto-generated method stub
+            	 //位置发生改变时,如果Provider传进相同的坐标，它就不会被触发 
+            	 Log.e("current location", location.getLatitude()+ " + " + location.getLongitude());
+            	 double distance = gps2m(location0.getLatitude(), location0.getLongitude(), location.getLatitude(), location.getLongitude());
+            	 tv.setText(String.valueOf(distance));
+             }
+         };
+         locationm.requestLocationUpdates(provider, 0, 0, GPS_listener);
+         
+	} 
+
 }

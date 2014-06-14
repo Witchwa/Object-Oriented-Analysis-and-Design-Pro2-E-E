@@ -19,20 +19,18 @@
     <string-array name="planets_array">
         <item>运动记录</item>
         <item>邀约跑友</item>
-        <item>摇一摇</item>
         <item>我的饮食</item>
         <item>饮食推荐</item>
-        
        
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
-    <string name="unknown"></string>
-    <string name="track_time">运动时长（单位：分钟）</string>
+	<string name="unknown"></string>
+    <string name="track_time">运动时长（单位：秒钟）</string>
     <string name="distance_label">运动里程数（单位：米）</string>
-    <string name="speed_label">平均速度（单位：米/分钟）</string>
+    <string name="speed_label">平均速度（单位：米/秒钟）</string>
     <string name="startTime">0:0</string>
     <string name="calories_label">消耗卡路里（单位：千卡）</string>
     <string name="zero">0</string>

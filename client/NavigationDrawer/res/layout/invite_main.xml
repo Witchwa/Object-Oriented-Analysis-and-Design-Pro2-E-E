@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/shakehands"
+    
+    > 
+
+<TextView
+    android:id="@+id/tv_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingBottom="10px"
+    android:paddingTop="10px"
+    android:text="摇一摇邀约跑友"
+    android:textColor="@android:color/white"
+    android:textSize="25sp" />
+
+<Button
+    android:id="@+id/cs"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="click to search" 
+    android:clickable="true"/>
+ 
+</LinearLayout>

@@ -33,7 +33,7 @@
             android:layout_weight="6"
             android:background="@drawable/view_shape"
             android:ems="10"
-            android:hint="邮箱/手机号" >
+            android:hint="昵称/手机号" >
 
             <requestFocus />
         </EditText>
